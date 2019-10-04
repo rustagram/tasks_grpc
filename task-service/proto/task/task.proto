@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package task;
+
+service ManagingService {
+    rpc CreateTask(Task) returns (Response) {}
+    rpc UpdateTask(Task) returns (Response) {}
+    rpc MakeDone(Task) returns (Response) {}
+    rpc DeleteTask(Task) returns (Response) {}
+    rpc GetAllTasks(GetAll) returns (Response) {}
+}
+
+message Task {
+    string assignee = 1;
+    string title = 2;
+    string deadline = 3;
+    bool done = 4;
+}
+
+message GetAll {}
+
+message Response {
+    bool flag = 1;
+    Task task = 2;
+    repeated Task tasks = 3;
+}
