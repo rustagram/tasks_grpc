@@ -53,14 +53,19 @@ func main() {
 	}
 	log.Printf("Created: %t", r.Flag)
 
+	_, err = client.MakeLate(context.Background(), &pb.MakeLateRequest{})
+	if err != nil {
+		log.Fatalf("Could not make late tasks %v", err)
+	}
+
+	_, err = client.DeleteTask(context.Background(), &pb.DeleteTaskRequest{Id:1})
+	if err != nil {
+		log.Fatalf("Could not delete the task: %v", err)
+	}
+
 	getAll, err := client.GetAllTasks(context.Background(), &pb.GetAllRequest{})
 	if err != nil {
 		log.Fatalf("Could not list tasks: %v", err)
-	}
-
-	_, err = client.MakeLate(context.Background(), &pb.MakeLateRequest{})
-	if err != nil {
-		log.Fatalf("Could not make late tasks")
 	}
 
 	for _, v := range getAll.Tasks {
