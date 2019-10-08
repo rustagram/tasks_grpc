@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	pb "github.com/rustambek96/tasks_grpc/task-service/proto/task"
 	"google.golang.org/grpc"
 	"io/ioutil"
@@ -48,7 +47,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not parse file: %v", err)
 	}
-	fmt.Println(task)
 	r, err := client.CreateTask(context.Background(), task)
 	if err != nil {
 		log.Fatalf("Could not greet: %v", err)
@@ -57,8 +55,14 @@ func main() {
 
 	getAll, err := client.GetAllTasks(context.Background(), &pb.GetAllRequest{})
 	if err != nil {
-		log.Fatalf("Could not list consignments: %v", err)
+		log.Fatalf("Could not list tasks: %v", err)
 	}
+
+	_, err = client.MakeLate(context.Background(), &pb.MakeLateRequest{})
+	if err != nil {
+		log.Fatalf("Could not make late tasks")
+	}
+
 	for _, v := range getAll.Tasks {
 		log.Println(v)
 	}
